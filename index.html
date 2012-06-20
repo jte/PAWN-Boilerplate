@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>PAWN Boilerplate by oscar-broman</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>PAWN Boilerplate</h1>
+        <p>Solid ground for a big SA-MP server script.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/oscar-broman/PAWN-Boilerplate" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/oscar-broman/PAWN-Boilerplate/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/oscar-broman/PAWN-Boilerplate/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>PAWN Boilerplate</h1>
+
+<p>Please note that this project is not yet officially released.</p>
+
+<p>PAWN Boilerplate, or PBP, is a solid base for rapidly developing large gamemodes for SA-MP servers.
+Everything is organized into modules, which are very easy to create and get started with.</p>
+
+<p>To make this work, a pre-compiler has been created. The pre-compiler will automatically generate a main file linked to all the modules and their contents.</p>
+
+<p>Have a look at the <strong><a href="https://github.com/oscar-broman/PAWN-Boilerplate/wiki">Wiki</a></strong> for more information.</p>
+
+<h1>Cool features</h1>
+
+<h2>Scripting made easy</h2>
+
+<p>PBP contains many mature, well-tested libraries and plugins, which are used extensively throughout the system.</p>
+
+<h3>Libraries bundled</h3>
+
+<ul>
+<li>
+<strong>YSI</strong> by Y_Less</li>
+<li>
+<strong>fixes.inc</strong> by Y_Less</li>
+<li>
+<strong>amx_assembly</strong> by Zeex</li>
+<li>
+<strong>formatex</strong> by Slice</li>
+<li>
+<strong>pointers.inc</strong> by Slice</li>
+<li>
+<strong>SQLite Improved</strong> by Slice</li>
+</ul><h3>Plugins bundled</h3>
+
+<ul>
+<li>
+<strong>sscanf</strong> by Y_Less</li>
+<li>
+<strong>whirlpool</strong> by Y_Less</li>
+<li>
+<strong>crashdetect</strong> by Zeex</li>
+</ul><h2>Commands</h2>
+
+<p>PBP uses YCMD, though with some extensions:</p>
+
+<div class="highlight">
+<pre><span class="c1">// This will appear in /commands</span>
+<span class="n">CommandDescription</span><span class="o">&lt;</span><span class="n">quit_race</span><span class="o">&gt;</span> <span class="o">=</span> <span class="s">"Quit the race you're currently in."</span><span class="p">;</span>
+
+<span class="c1">// Create the racers group (where you create global variables)</span>
+<span class="k">new</span> <span class="n">StaticGroup</span><span class="o">&lt;</span><span class="n">GROUP_RACERS</span><span class="o">&gt;</span> <span class="o">=</span> <span class="s">"Racers"</span><span class="p">;</span>
+
+<span class="c1">// This command is only available for players in the group GROUP_RACERS</span>
+<span class="n">YCMD</span><span class="p">(</span><span class="n">GROUP_RACERS</span><span class="p">)</span><span class="o">:</span><span class="n">quit_race</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">params</span><span class="p">[],</span> <span class="n">help</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// &lt;quit race code here&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Configuration variables</h2>
+
+<p>Very easily make variables save/load with the gamemode.</p>
+
+<div class="highlight">
+<pre><span class="k">new</span> <span class="n">g_SomeVariable</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> <span class="c1">// 50 will be the default value</span>
+<span class="k">new</span> <span class="n">g_SomeArray</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+
+<span class="c1">// These variables now automatically loads and saves when the gamemode inits/exits</span>
+<span class="nl">RegisterConfigVariable:</span> <span class="n">g_SomeVariable</span><span class="p">;</span>
+<span class="nl">RegisterConfigArray:</span> <span class="n">g_SomeArray</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Config values can be changed while the server is running with the following RCON commands:</p>
+
+<ul>
+<li>Reload all config data from <code>scriptfiles/config.cfg</code>: <code>/rcon config_reload</code>
+</li>
+<li>Change the value of a specific config variable: <code>/rcon config_set g_SomeVariable 123</code>
+</li>
+</ul><h2>User module</h2>
+
+<p>Seamlessly integrates with the rest of your gamemode. Automatically loaded/saved user variables:</p>
+
+<p><em>Auto-magically!</em></p>
+
+<p>Here's how would keep in track how many times a player has logged in:</p>
+
+<div class="highlight">
+<pre><span class="k">new</span> <span class="n">g_NumTimesConnected</span><span class="p">[</span><span class="n">MAX_PLAYERS</span><span class="p">];</span>
+
+<span class="nl">RegisterUserVariable:</span> <span class="n">g_NumTimesConnected</span><span class="p">;</span>
+
+<span class="c1">// OnPlayerLogIn</span>
+<span class="n">g_NumTimesConnected</span><span class="p">[</span><span class="n">playerid</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+
+<span class="n">SendClientMessage</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">COLOR_GENERIC_INFO</span><span class="p">,</span> <span class="s">"* Welcome. You have logged in %d times."</span><span class="p">,</span> <span class="n">g_NumTimesConnected</span><span class="p">[</span><span class="n">playerid</span><span class="p">]);</span>
+
+<span class="c1">// ..that's it!</span>
+</pre>
+</div>
+
+
+<h2>Text module</h2>
+
+<h3>formatex integration</h3>
+
+<p>The Text module adds formatex to many native text functions.</p>
+
+<p>Examples of what now can be done:</p>
+
+<div class="highlight">
+<pre><span class="k">new</span> <span class="n">dogs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cats</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"John Doe"</span><span class="p">;</span>
+
+<span class="n">SendClientMessage</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="s">"You have %d dogs and %d cats. Your name is %s."</span><span class="p">,</span> <span class="n">dogs</span><span class="p">,</span> <span class="n">cats</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+<span class="c1">// Output: You have 2 dogs and 3 cats. Your name is John Doe.</span>
+
+<span class="k">new</span> <span class="n">weapon</span> <span class="o">=</span> <span class="n">GetPlayerWeapon</span><span class="p">(</span><span class="n">playerid</span><span class="p">),</span> <span class="n">modelid</span> <span class="o">=</span> <span class="n">GetVehicleModel</span><span class="p">(</span><span class="n">GetPlayerVehicleID</span><span class="p">(</span><span class="n">playerid</span><span class="p">));</span>
+<span class="n">SendClientMessage</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="s">"You're currently holding %w and driving a vehicle called %v."</span><span class="p">,</span> <span class="n">weapon</span><span class="p">,</span> <span class="n">modelid</span><span class="p">);</span>
+<span class="c1">// Output: You're currently holding an m4 and driving a vehicle called Infernus.</span>
+
+<span class="c1">// OnPlayerDeath:</span>
+<span class="n">SendClientMessage</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="s">"You were killed by %p using %w."</span><span class="p">,</span> <span class="n">killerid</span><span class="p">,</span> <span class="n">reason</span><span class="p">);</span>
+<span class="c1">// Output: You were killed by [ABC]SomeGuy using a minigun.</span>
+</pre>
+</div>
+
+
+<h3>Translations</h3>
+
+<p>The Text module also brings an <strong>amazing</strong> system for translating text. All you need to do is use an at-sign before strings (<code>@"my string"</code>) and create files in <code>scriptfiles/languages/XX.lang.inc</code>.</p>
+
+<h4>Example</h4>
+
+<p><strong>Your code:</strong></p>
+
+<div class="highlight">
+<pre><span class="c1">// OnPlayerConnect:</span>
+<span class="n">SendClientMessage</span><span class="p">(</span><span class="n">playerid</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="s">@"Welcome to the server!"</span><span class="p">);</span>
+<span class="n">SendClientMessageToAll</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="s">@"%p just joined the server!"</span><span class="p">,</span> <span class="n">playerid</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p><strong>The file <code>scriptfiles/languages/sv.lang.inc</code>:</strong></p>
+
+<p>When you create this file and run the compile script, it will now look like this:</p>
+
+<div class="highlight">
+<pre><span class="s">"Welcome to the server!"</span> <span class="o">=</span> <span class="s">"Welcome to the server!"</span>
+
+<span class="s">"%p just joined the server!"</span> <span class="o">=</span> <span class="s">"%p just joined the server!"</span>
+</pre>
+</div>
+
+
+<p>Now, simply change the <strong>right part</strong> of the assignment, such as this:</p>
+
+<div class="highlight">
+<pre><span class="s">"Welcome to the server!"</span> <span class="o">=</span> <span class="s">"Välkommen till servern!"</span>
+
+<span class="s">"%p just joined the server!"</span> <span class="o">=</span> <span class="s">"%p anslöt nyss till servern!"</span>
+</pre>
+</div>
+
+
+<p>If a player has his language set to Swedish, then he will see <code>Välkommen till servern!</code> when that client message is sent.
+As for everyone else, depending on their language they will see either <code>Slice just joined the server!</code> or <code>Slice anslöt nyss till servern!</code>.</p>
+
+<p>As always, <em>auto-magically!</em></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/oscar-broman">oscar-broman</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-32784085-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
